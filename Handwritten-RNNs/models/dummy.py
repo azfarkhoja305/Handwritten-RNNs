@@ -1,7 +1,7 @@
 import numpy
 import torch
 import copy
-
+from pathlib import Path
 from models.synthesis import Synthesis
 from models.autogen import AutoGen
 from utils import *
@@ -9,13 +9,17 @@ from utils.other_utils import *
 
 device = check_cuda()
 
-strokes = numpy.load('./gdrive/My Drive/descript-research-test/data/strokes-py3.npy', allow_pickle=True)
+# change if running locally
+path = Path('./Handwritten-RNNs/Handwritten-RNNs')
+
+# load and process strokes to initialize denorm values
+strokes = numpy.load(path/'data/strokes-py3.npy', allow_pickle=True)
 process_strokes = ProcessStrokes()
 norm_strokes = process_strokes.normalize(copy.deepcopy(strokes))
 final_strokes =  process_strokes.add_tokens(copy.deepcopy(norm_strokes))
 
-
-with open('./gdrive/My Drive/descript-research-test/data/sentences.txt') as f:
+# load and process texts to initialize sent2num values
+with open(path/'data/sentences.txt') as f:
     texts = f.readlines()
 process_text = ProcessText()
 char_list = process_text.tokenize(texts)
@@ -23,11 +27,11 @@ word2idx,idx2word = process_text.create_vocab()
 char_data = process_text.numericalize()
 
 model1 = AutoGen(fc_size=30, interm=4 ,rnn_layers=3, n_g=20)
-model1.load_state_dict(torch.load('./gdrive/My Drive/descript-research-test/unconditional.pt', map_location=device))
+model1.load_state_dict(torch.load(path/'unconditional.pt', map_location=device))
 model1.to(device);
 
 model2 = Synthesis(enc_sz=70,dec_sz = 30,att_hd = 20,n_g = 20)
-model2.load_state_dict(torch.load('./gdrive/My Drive/descript-research-test/conditional.pt', map_location=device))
+model2.load_state_dict(torch.load(path/'conditional.pt', map_location=device))
 model2.to(device);
 
 
