@@ -1,7 +1,8 @@
 # Implementation of Generating Sequences With Recurrent Neural Networks by Alex Graves
  
  
- * Change local path in notebooks and scipts if running locally. Currently set for Google Colab
+ * Change local path in  Conditional.ipynb, Unconditiona.ipynb and dummpy.py if running locally.   
+   Currently set for Google Colab
  
 ## Handwriting generation!
 
