@@ -1,5 +1,8 @@
 # Implementation of Generating Sequences With Recurrent Neural Networks by Alex Graves
  
+ 
+ * Change local path in notebooks and scipts if running locally
+ 
 ## Handwriting generation!
 
 ### Task 1: Unconditional generation.
